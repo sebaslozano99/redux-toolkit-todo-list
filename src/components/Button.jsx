@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 
 
+
+
 export default function Button({
+    type = "main",
     textColor = "#ffffff",
     bgColor = "#6C63FF",
     className = "",
@@ -10,14 +13,19 @@ export default function Button({
 }) {
 
 
+    const baseStyles = "py-1 px-2 rounded-md";
+
+    const styles = type === "main" ? 
+        `bg-[${bgColor}] text-[${textColor}]` 
+        :
+        `bg-[${textColor}] text-[${bgColor}] border-2 border-[${bgColor}]`;
+
+
   return (
     <button 
         onClick={onclick}
-        className={className ? className : `py-1 px-2 rounded-md`} 
-        style={{
-            backgroundColor: `${bgColor}`,
-            color: `${textColor}`,
-        }}
+        className={`${baseStyles} ${styles} ${className}`} 
+        style={type === "main" ? {color: textColor} : {color: bgColor}}
     >
         {children}
     </button>
@@ -28,6 +36,7 @@ export default function Button({
 
 Button.propTypes = {
     onclick: PropTypes.func,
+    type: PropTypes.string,
     className: PropTypes.string,
     textColor: PropTypes.string,
     bgColor: PropTypes.string,

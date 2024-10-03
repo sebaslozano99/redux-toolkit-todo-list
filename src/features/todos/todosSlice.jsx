@@ -3,18 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     todos: [
-        {
-            id: 125478,
-            task: "Read recommended book again!",
-            isCompleted: false,
-            isUpdaing: false,
-        },
-        {
-            id: 125588,
-            task: "Read recommended book again!",
-            isCompleted: false,
-            isUpdaing: false,
-        },
+        // {
+        //     id: 125478,
+        //     task: "Read recommended book again!",
+        //     isCompleted: false,
+        //     isUpdaing: false,
+        // },
+        // {
+        //     id: 125588,
+        //     task: "Read recommended book again!",
+        //     isCompleted: false,
+        //     isUpdaing: false,
+        // },
         // {
         //     id: 541247,
         //     task: "Visit girlfriend!",
