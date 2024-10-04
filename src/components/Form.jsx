@@ -9,7 +9,7 @@ import SearchBar from "./SearchBar";
 export default function Form() {
   return (
     //4rem height
-    <nav className="w-full h-[10%] flex items-center justify-center py-2 px-5 gap-2 border-2 border-red-500" >
+    <nav className="w-full h-[10%] flex items-center justify-center py-2 px-5 gap-2" >
 
       <SearchBar />
 
