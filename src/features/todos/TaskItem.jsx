@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { remove, markAsCompleted } from "./todosSlice";
+import { remove, markAsCompleted, setAsUpdating } from "./todosSlice";
 import PropTypes from "prop-types";
 import Button from "../../components/Button";
 
@@ -30,6 +30,11 @@ export default function TaskItem({info}) {
     dispatch(markAsCompleted(id))
   }
 
+  function handleSetAsUpdating(id){
+    dispatch(setAsUpdating(id));
+  }
+
+
   
   return (
     <li className="border-b border-b-slate-950/40 py-2 flex items-center justify-between gap-4 cursor-pointer" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
@@ -52,7 +57,7 @@ export default function TaskItem({info}) {
 
       <div className={`flex items-center gap-2 transition-opacity duration-500 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"}`} > 
 
-        <Button textColor="#cdcdcd" bgColor="transparent">
+        <Button textColor="#cdcdcd" bgColor="transparent" onclick={() => handleSetAsUpdating(info.id)}>
           <i className='bx bx-pencil bx-sm hover:text-[#858585] transition-all duration-300'></i>
         </Button>
 

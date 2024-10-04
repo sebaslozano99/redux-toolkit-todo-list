@@ -23,12 +23,19 @@ const todosSlice = createSlice({
         setAsUpdating(state, action){
             state.todos = state.todos.map((todo) => todo.id === action.payload ? {...todo, isUpdating: !todo.isUpdating} : todo);
         },
-        // update(state, action){
-        //     state.todos
-        // }
+        update: {
+            prepare(id, updatedTask){
+                return {
+                    payload: {id, updatedTask},
+                };
+            },
+
+            reducer(state, action){
+            state.todos = state.todos.map((todo) => todo.id === action.payload.id ? {...todo, task: action.payload.updatedTask, isUpdating: !todo.isUpdating } : todo);
+        }}
     }
 })
 
 
-export const { add, remove, markAsCompleted, setAsUpdating } = todosSlice.actions;
+export const { add, remove, markAsCompleted, setAsUpdating, update } = todosSlice.actions;
 export default todosSlice.reducer;

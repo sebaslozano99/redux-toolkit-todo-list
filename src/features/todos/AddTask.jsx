@@ -1,40 +1,62 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsAddingTask } from "../../contexts/isAddingTaskContext";
 import { useDispatch } from "react-redux";
-import { add } from "./todosSlice";
+import { add, setAsUpdating, update } from "./todosSlice";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../components/Button";
+import PropTypes from "prop-types";
 
 
-export default function AddTask() {
 
-  const [newTask, setNewTask] = useState("");
+
+export default function AddTask({initialState}) {
+
+  const [newTask, setNewTask] = useState(initialState?.task ?? "");
   const { startAddingTask } = useIsAddingTask();
   const inputEl = useRef(null);
   const dispatch = useDispatch();
+  const isAddingTaskOrUpdating = Object.keys(initialState).length === 0; //if initialState is empty, that means user is Adding, otherwise updating an exisitng task
 
 
   function handleAddTask(e){
     e.preventDefault();
     if(!newTask) return;
 
-    const newTaskObject = {
-      id: uuidv4(),
-      task: newTask,
-      isCompleted: false,
-      isUpdating: false,
+    if(isAddingTaskOrUpdating) {
+
+      console.log("working");
+
+      const newTaskObject = {
+        id: uuidv4(),
+        task: newTask,
+        isCompleted: false,
+        isUpdating: false,
+      }
+  
+      dispatch(add(newTaskObject));
+      startAddingTask(); // close the modal
+
+    }
+    else{
+      console.log("hi");
+      dispatch(update(initialState.id, newTask));
     }
 
-    dispatch(add(newTaskObject));
     setNewTask("");
-    startAddingTask(); // close the modal
   }
 
+
+
+  function handleCancelAddingOrUpdating(){
+    if(isAddingTaskOrUpdating) startAddingTask();
+    else dispatch(setAsUpdating(initialState.id));
+  }
 
 
   useEffect(() => {
     inputEl.current.focus();
   }, [])
+
 
   return (
 
@@ -42,7 +64,7 @@ export default function AddTask() {
 
       <div className="flex flex-col items-center justify-between gap-2">
 
-        <h2 className="font-bold text-2xl" >NEW TASK</h2>
+        <h2 className="font-bold text-2xl" >{isAddingTaskOrUpdating ? "NEW TASK" : "UPDATE TASK"}</h2>
 
         <form className="w-full" onSubmit={handleAddTask} >
 
@@ -62,11 +84,16 @@ export default function AddTask() {
 
       <div className=" flex justify-between" >
 
-        <Button onclick={startAddingTask} type="cancel" >CANCEL</Button>
+        <Button onclick={handleCancelAddingOrUpdating} type="cancel" >CANCEL</Button>
         <Button >APPLY</Button>
 
       </div>
 
     </div>
   )
+}
+
+
+AddTask.propTypes = {
+  initialState: PropTypes.object,
 }
