@@ -24,7 +24,7 @@ export default function TasksContainer() {
   return (
     <section className="w-full h-[80%] relative" >
 
-      <ul className="mx-auto w-3/6 h-full p-2" >
+      <ul className="mx-auto w-3/6 h-full p-2 overflow-auto" >
         {
           todos.map((todo) => <TaskItem key={todo.id} info={todo} />)
         }

@@ -13,7 +13,7 @@ export default function Button({
 }) {
 
 
-    const baseStyles = "py-1 px-2 rounded-md";
+    const baseStyles = "py-1 px-2 rounded-md flex justify-center items-center";
 
     const styles = type === "main" ? 
         `bg-[${bgColor}] text-[${textColor}]` 

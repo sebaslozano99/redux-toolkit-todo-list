@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsAddingTask } from "../../contexts/isAddingTaskContext";
 import { useDispatch } from "react-redux";
 import { add } from "./todosSlice";
@@ -8,12 +8,14 @@ import Button from "../../components/Button";
 
 export default function AddTask() {
 
-  const { startAddingTask } = useIsAddingTask();
   const [newTask, setNewTask] = useState("");
+  const { startAddingTask } = useIsAddingTask();
+  const inputEl = useRef(null);
   const dispatch = useDispatch();
 
 
-  function handleAddTask(){
+  function handleAddTask(e){
+    e.preventDefault();
     if(!newTask) return;
 
     const newTaskObject = {
@@ -28,6 +30,12 @@ export default function AddTask() {
     startAddingTask(); // close the modal
   }
 
+
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, [])
+
   return (
 
     <div className="w-[50%] h-72 bg-white rounded-md p-6 flex flex-col justify-between" >
@@ -36,7 +44,7 @@ export default function AddTask() {
 
         <h2 className="font-bold text-2xl" >NEW TASK</h2>
 
-        <form className="w-full" >
+        <form className="w-full" onSubmit={handleAddTask} >
 
           <input 
             type="text" 
@@ -44,6 +52,7 @@ export default function AddTask() {
             className="w-full border-[2px] border-[#6C63FF] rounded-md outline-none py-1 px-3" 
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
+            ref={inputEl}
           />
 
         </form>
@@ -54,7 +63,7 @@ export default function AddTask() {
       <div className=" flex justify-between" >
 
         <Button onclick={startAddingTask} type="cancel" >CANCEL</Button>
-        <Button onclick={handleAddTask} >APPLY</Button>
+        <Button >APPLY</Button>
 
       </div>
 
