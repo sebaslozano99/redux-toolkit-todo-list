@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useIsAddingTask } from "../../contexts/isAddingTaskContext";
+import { useIsAddingTask } from "../../contexts/IsAddingTaskContext";
 import { useDispatch } from "react-redux";
+import { useDarkMode } from "../../contexts/DarkModeContext";
 import { add, setAsUpdating, update } from "./todosSlice";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../components/Button";
@@ -13,18 +14,17 @@ export default function AddTask({initialState}) {
 
   const [newTask, setNewTask] = useState(initialState?.task ?? "");
   const { startAddingTask } = useIsAddingTask();
+  const { isDark } = useDarkMode();
   const inputEl = useRef(null);
   const dispatch = useDispatch();
-  const isAddingTaskOrUpdating = Object.keys(initialState).length === 0; //if initialState is empty, that means user is Adding, otherwise updating an exisitng task
+  const isAddingTask = Object.keys(initialState).length === 0; //if initialState is empty, that means user is Adding, otherwise updating an exisitng task
 
 
-  function handleAddTask(e){
+  function handleAddorUpdateTask(e){
     e.preventDefault();
     if(!newTask) return;
 
-    if(isAddingTaskOrUpdating) {
-
-      console.log("working");
+    if(isAddingTask) {
 
       const newTaskObject = {
         id: uuidv4(),
@@ -38,7 +38,6 @@ export default function AddTask({initialState}) {
 
     }
     else{
-      console.log("hi");
       dispatch(update(initialState.id, newTask));
     }
 
@@ -48,7 +47,7 @@ export default function AddTask({initialState}) {
 
 
   function handleCancelAddingOrUpdating(){
-    if(isAddingTaskOrUpdating) startAddingTask();
+    if(isAddingTask) startAddingTask();
     else dispatch(setAsUpdating(initialState.id));
   }
 
@@ -60,18 +59,18 @@ export default function AddTask({initialState}) {
 
   return (
 
-    <div className="w-[50%] h-72 bg-white rounded-md p-6 flex flex-col justify-between" >
+    <div className={`flex flex-col justify-between p-6 w-[50%] h-72 ${isDark ? "bg-[#252525]" : "bg-white"} rounded-md`} >
 
       <div className="flex flex-col items-center justify-between gap-2">
 
-        <h2 className="font-bold text-2xl" >{isAddingTaskOrUpdating ? "NEW TASK" : "UPDATE TASK"}</h2>
+        <h2 className={`font-bold text-2xl ${isDark ? "text-white" : ""}`} >{isAddingTask ? "NEW TASK" : "UPDATE TASK"}</h2>
 
-        <form className="w-full" onSubmit={handleAddTask} >
+        <form className="w-full" onSubmit={handleAddorUpdateTask} >
 
           <input 
             type="text" 
             placeholder="input your new task..." 
-            className="w-full border-[2px] border-[#6C63FF] rounded-md outline-none py-1 px-3" 
+            className={`py-1 px-3 w-full ${isDark ? "text-white" : ""} border-[2px] border-[#6C63FF] bg-transparent rounded-md outline-none`} 
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
             ref={inputEl}
@@ -84,7 +83,7 @@ export default function AddTask({initialState}) {
 
       <div className=" flex justify-between" >
 
-        <Button onclick={handleCancelAddingOrUpdating} type="cancel" >CANCEL</Button>
+        <Button onclick={handleCancelAddingOrUpdating} type="secondary" >CANCEL</Button>
         <Button >APPLY</Button>
 
       </div>

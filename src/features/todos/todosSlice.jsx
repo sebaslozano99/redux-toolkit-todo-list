@@ -12,10 +12,12 @@ const todosSlice = createSlice({
     initialState,
     reducers: {
         add(state, action){
-            state.todos = [...state.todos, action.payload];
+            // state.todos = [...state.todos, action.payload];
+            state.todos.push(action.payload);
         },
         remove(state, action){
             state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+            // state.todos.filter((todo) => todo.id !== action.payload);
         },
         markAsCompleted(state, action){
             state.todos = state.todos.map((todo) => todo.id === action.payload ? {...todo, isCompleted: !todo.isCompleted} : todo);

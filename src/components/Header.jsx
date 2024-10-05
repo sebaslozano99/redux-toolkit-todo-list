@@ -1,10 +1,13 @@
+import { useDarkMode } from "../contexts/DarkModeContext";
 
-// border-2 border-red-800 border-dashed
 
 export default function Header() {
+
+  const { isDark } = useDarkMode();
+
   return (
-    <header className="w-full h-[10%] flex  items-center justify-center py-4" >
-        <h1 className="font-bold text-4xl" >TODOLIST</h1>
+    <header className="flex  items-center justify-center py-4 w-full h-[10%]" >
+        <h1 className={`font-bold text-4xl ${isDark ? "text-white" : ""}`} >TODOLIST</h1>
     </header>
   )
 }

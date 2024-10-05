@@ -1,24 +1,23 @@
 import { useSelector } from "react-redux";
-import { useIsAddingTask } from "../../contexts/isAddingTaskContext";
+import { useIsAddingTask } from "../../contexts/IsAddingTaskContext";
 import PropTypes from "prop-types";
 import TaskItem from "./TaskItem";
 import Button from "../../components/Button";
-import svgImage from "../../../public/empty.svg";
+import EmptyContainer from "../../components/EmptyContainer";
 
 
 
 export default function TasksContainer() {
 
   const { todos } = useSelector((store) => store.todos);
-  const { isAddingTask, startAddingTask: setIsAddingTask } = useIsAddingTask();
+  const { startAddingTask: setIsAddingTask } = useIsAddingTask();
 
 
-  if(!todos.length) return <section className={`w-full h-[80%] flex flex-col justify-center items-center relative ${isAddingTask ? "" : ""}`} >
-      <img src={svgImage} alt="empty" className="w-2/6" />
-      <p>Empty...</p>
-
-      <Button className="h-10 w-10 absolute left-[76%] bottom-4 px-3 py-1 rounded-full" onclick={setIsAddingTask} >&#x2b;</Button>
-  </section>
+  if(!todos.length) return (
+    <EmptyContainer>
+      <Button type="rounded" onclick={setIsAddingTask} >&#x2b;</Button>
+    </EmptyContainer>
+  )
 
 
   return (
@@ -30,7 +29,7 @@ export default function TasksContainer() {
         }
       </ul>
 
-      <Button className="h-10 w-10 absolute left-[76%] bottom-4 px-3 py-1 rounded-full" onclick={setIsAddingTask} >&#x2b;</Button>
+      <Button type="rounded" onclick={setIsAddingTask} >&#x2b;</Button>
 
     </section>
   )

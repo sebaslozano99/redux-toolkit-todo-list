@@ -1,23 +1,20 @@
-import { useIsAddingTask } from "../contexts/isAddingTaskContext";
 import { useSelector } from "react-redux";
+import { useIsAddingTask } from "../contexts/IsAddingTaskContext";
+import { useDarkMode } from "../contexts/DarkModeContext";
 import PropTypes from "prop-types";
 import Modal from "../components/Modal";
-import { useEffect } from "react";
 
 
 export default function Homepage({children}) {
 
+  const { isDark } = useDarkMode();
   const { isAddingTask } = useIsAddingTask();
   const { todos } = useSelector((store) => store.todos);
   const taskUpdating = todos.find((todo) => todo.isUpdating);
 
 
-  useEffect(() => {
-    console.log(taskUpdating);
-  }, [taskUpdating]);
-
   return (
-    <main className={`w-full h-screen bg-white relative z-10 transition-all duration-300 ease-out`} >
+    <main className={`relative z-10 w-full h-screen ${isDark ? "bg-[#252525]" : "bg-white"} transition-all duration-300 ease-out`} >
       {children}
       {isAddingTask && <Modal />}
       {taskUpdating && <Modal initialState={taskUpdating} />}
