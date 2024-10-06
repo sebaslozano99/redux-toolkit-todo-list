@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import PropTypes from "prop-types";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 
 
@@ -9,8 +10,7 @@ const DarkModeContext = createContext();
 
 function DarkModeProvider({children}) {
 
-  const [isDark, setIsDark] = useState(false);
-  
+  const [isDark, setIsDark] = useLocalStorage("theme", false);
 
   function handleChangeDarkMode(){
     setIsDark((currentMode) => !currentMode);

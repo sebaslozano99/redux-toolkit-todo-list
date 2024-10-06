@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useIsAddingTask } from "../../contexts/IsAddingTaskContext";
 import { useDispatch } from "react-redux";
 import { useDarkMode } from "../../contexts/DarkModeContext";
@@ -6,6 +6,7 @@ import { add, setAsUpdating, update } from "./todosSlice";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../../components/Button";
 import PropTypes from "prop-types";
+import SearchBar from "../../components/SearchBar";
 
 
 
@@ -15,7 +16,6 @@ export default function AddTask({initialState}) {
   const [newTask, setNewTask] = useState(initialState?.task ?? "");
   const { startAddingTask } = useIsAddingTask();
   const { isDark } = useDarkMode();
-  const inputEl = useRef(null);
   const dispatch = useDispatch();
   const isAddingTask = Object.keys(initialState).length === 0; //if initialState is empty, that means user is Adding, otherwise updating an exisitng task
 
@@ -52,10 +52,6 @@ export default function AddTask({initialState}) {
   }
 
 
-  useEffect(() => {
-    inputEl.current.focus();
-  }, [])
-
 
   return (
 
@@ -67,14 +63,7 @@ export default function AddTask({initialState}) {
 
         <form className="w-full" onSubmit={handleAddorUpdateTask} >
 
-          <input 
-            type="text" 
-            placeholder="input your new task..." 
-            className={`py-1 px-3 w-full ${isDark ? "text-white" : ""} border-[2px] border-[#6C63FF] bg-transparent rounded-md outline-none`} 
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            ref={inputEl}
-          />
+          <SearchBar initialValue={newTask} setValue={setNewTask} isDark={isDark} focus={true} />
 
         </form>
 
