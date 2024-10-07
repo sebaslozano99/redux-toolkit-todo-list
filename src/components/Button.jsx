@@ -10,12 +10,13 @@ export default function Button({
     type = "main",
     onclick,
     className = "",
+    isDisabled = false,
     children
 }) {
 
     const { isDark } = useDarkMode();
 
-    const baseStyles = `flex justify-center items-center rounded-md py-1 px-2`;
+    const baseStyles = `flex justify-center items-center rounded-md py-1 px-2 disabled:cursor-not-allowed`;
 
     const styles = {
         main: baseStyles + ` text-white bg-[#6C63FF]`,
@@ -31,6 +32,7 @@ export default function Button({
         <button 
             className={className}
             onClick={onclick}
+            disabled={isDisabled}
         >
             {children}
         </button>
@@ -44,7 +46,8 @@ export default function Button({
             color: textColor,   
         }}
         onClick={onclick}
-        className={styles[type]} 
+        className={styles[type]}
+        disabled={isDisabled} 
     >
         {children}
     </button>
@@ -54,6 +57,7 @@ export default function Button({
 
 
 Button.propTypes = {
+    isDisabled: PropTypes.bool,
     onclick: PropTypes.func,
     type: PropTypes.string,
     className: PropTypes.string,

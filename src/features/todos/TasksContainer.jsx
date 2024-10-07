@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useIsAddingTask } from "../../contexts/IsAddingTaskContext";
+import { useFilter } from "../../contexts/FilterContext";
 import PropTypes from "prop-types";
 import TaskItem from "./TaskItem";
 import Button from "../../components/Button";
@@ -11,13 +12,15 @@ export default function TasksContainer() {
 
   const { todos } = useSelector((store) => store.todos);
   const { startAddingTask: setIsAddingTask } = useIsAddingTask();
+  const { filter } = useFilter();
 
 
-  if(!todos.length) return (
+  if(!todos.length || filter === "pending" && !todos.filter((todo) => !todo.isCompleted).length  || filter === "completed" && todos.filter((todo) => !todo.isCompleted).length) return (
     <EmptyContainer>
       <Button type="rounded" onclick={setIsAddingTask} >&#x2b;</Button>
     </EmptyContainer>
   )
+
 
 
   return (
@@ -25,7 +28,13 @@ export default function TasksContainer() {
 
       <ul className="mx-auto w-3/6 h-full p-2 overflow-auto" >
         {
-          todos.map((todo) => <TaskItem key={todo.id} info={todo} />)
+          filter === "all" && todos.map((todo) => <TaskItem key={todo.id} info={todo} />)
+        }
+        {
+          filter === "pending" && todos.filter((todo) => !todo.isCompleted).map((todo) => <TaskItem key={todo.id} info={todo} />)
+        }
+        {
+          filter === "completed" && todos.filter((todo) => todo.isCompleted).map((todo) => <TaskItem key={todo.id} info={todo} />)
         }
       </ul>
 

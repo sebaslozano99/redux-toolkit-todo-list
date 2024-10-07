@@ -13,12 +13,13 @@ import './index.css'
 
 let persistore = persistStore(store);
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store} >
-      <PersistGate persistor={persistore  } >
+      <PersistGate persistor={persistore} >
         <App />
       </PersistGate>
     </Provider>
-  </StrictMode>,
+  </StrictMode>
 )

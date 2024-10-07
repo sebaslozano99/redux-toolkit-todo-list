@@ -61,11 +61,20 @@ export default function TaskItem({info}) {
 
       <div className={`flex items-center gap-2 transition-opacity duration-500 ease-in-out ${isHovered ? "opacity-100" : "opacity-0"}`} > 
 
-        <Button backgroundColor="transparent" textColor="#a8a8a8" onclick={() => handleSetAsUpdating(info.id)}>
+        <Button 
+          backgroundColor="transparent" 
+          textColor="#a8a8a8" 
+          onclick={() => handleSetAsUpdating(info.id)}
+          isDisabled={info.isCompleted}
+        >
           <i className='bx bx-pencil bx-sm hover:text-[#858585] transition-all duration-300'></i>
         </Button>
 
-        <Button backgroundColor="transparent" textColor="#a8a8a8" onclick={() => handleRemoveTask(info.id)} >
+        <Button 
+          backgroundColor="transparent" 
+          textColor="#a8a8a8" 
+          onclick={() => handleRemoveTask(info.id)} 
+        >
           <i className='bx bx-trash bx-sm hover:text-[#858585] transition-all duration-300' ></i>
         </Button>
 
