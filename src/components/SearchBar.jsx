@@ -9,7 +9,6 @@ export default function SearchBar({initialValue, setValue, isDark, focus}) {
   const inputEl = useRef(null);
 
   
-
   useEffect(() => {
     if(focus){
       inputEl.current.focus();
